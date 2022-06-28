@@ -844,10 +844,14 @@ const websocketOnmessage = (message) => {
 const openDriver = () => {
   driverLoading.value = true
   let androidPackageNameValue, appActivityValue;
-  if(project != null && project.value != null && project.value) {
-    androidPackageNameValue = project.value.androidPackageName;
-    appActivityValue = project.value.appActivity;
-  }
+  if(project && project.value) {
+    if(project.value.androidPackageName) {
+      androidPackageNameValue = project.value.androidPackageName;
+    }
+    if(project.value.appActivity) {
+      appActivityValue = project.value.appActivity;
+    }                     
+  }        
   websocket.send(
     JSON.stringify({
       type: 'debug',
@@ -1604,12 +1608,16 @@ const getDeviceById = (id) => {
         if (resp['code'] === 2000) {
           agent.value = resp.data;
           let androidPackageNameValue = "null", appActivityValue = "null";
-              if(project != null && project.value != null && project.value) {
-                  androidPackageNameValue = project.value.androidPackageName;
-                  appActivityValue = project.value.appActivity;
+          if(project && project.value) {
+              if(project.value.androidPackageName) {
+                androidPackageNameValue = project.value.androidPackageName;
               }
-              openSocket(agent.value['host'], agent.value['port']
-                , agent.value['secretKey'], device.value['udId'],
+              if(project.value.appActivity) {
+                appActivityValue = project.value.appActivity;
+              }
+          }
+          openSocket(agent.value['host'], agent.value['port'], 
+                agent.value['secretKey'], device.value['udId'],
                 androidPackageNameValue, appActivityValue);
         }
       });
