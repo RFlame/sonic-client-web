@@ -476,11 +476,11 @@ const setImgData = () => {
   };
   isShowImg.value = true;
 };
-const openSocket = (host, port, key, udId) => {
+const openSocket = (host, port, key, udId, androidPackageNameValue, appActivityValue) => {
   if ('WebSocket' in window) {
     //
     websocket = new WebSocket(
-        'ws://' + host + ':' + port + '/websockets/android/' + key + '/' + udId + '/' + localStorage.getItem('SonicToken') + '/' + isAudoInit.value,
+      'ws://' + host + ':' + port + '/websockets/android/' + key + '/' + udId + '/' + localStorage.getItem('SonicToken') + '/' + isAudoInit.value + '/' + androidPackageNameValue + '/' + appActivityValue,
     );
     //
     __Scrcpy = new Scrcpy({
@@ -843,11 +843,20 @@ const websocketOnmessage = (message) => {
 };
 const openDriver = () => {
   driverLoading.value = true
+  let androidPackageNameValue, appActivityValue;
+  if(project != null && project.value != null && project.value) {
+    androidPackageNameValue = project.value.androidPackageName;
+    appActivityValue = project.value.appActivity;
+  }
   websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'openDriver'
-      }),
+    JSON.stringify({
+      type: 'debug',
+      detail: 'openDriver',
+      capability: {
+          androidPackageName: androidPackageNameValue,
+          appActivity: appActivityValue
+      }
+    }),
   );
 }
 const getCurLocation = () => {
@@ -1594,8 +1603,14 @@ const getDeviceById = (id) => {
           .get('/controller/agents', {params: {id: device.value['agentId']}}).then((resp) => {
         if (resp['code'] === 2000) {
           agent.value = resp.data;
-          openSocket(agent.value['host'], agent.value['port']
-              , agent.value['secretKey'], device.value['udId']);
+          let androidPackageNameValue = "null", appActivityValue = "null";
+              if(project != null && project.value != null && project.value) {
+                  androidPackageNameValue = project.value.androidPackageName;
+                  appActivityValue = project.value.appActivity;
+              }
+              openSocket(agent.value['host'], agent.value['port']
+                , agent.value['secretKey'], device.value['udId'],
+                androidPackageNameValue, appActivityValue);
         }
       });
     }

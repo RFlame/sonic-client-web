@@ -18,7 +18,9 @@ const project = ref({
   robotType: 1,
   robotToken: "",
   robotSecret: "",
-  projectImg: ""
+  projectImg: "",
+  androidPackageName: "",
+  appActivity: ""
 })
 const projectUpdateForm = ref(null)
 const dialogDel = ref(false)
@@ -188,6 +190,24 @@ onMounted(() => {
       ></el-input>
       <span style="font-size: 13px; color: #999"
       >填写群机器人的密钥，可在机器人设置页面查看</span
+      >
+    </el-form-item>
+    <el-form-item label="Android包名" prop="androidPackageName">
+      <el-input
+          v-model="project.androidPackageName"
+          placeholder="应用包名-Android"
+      ></el-input>
+      <span style="font-size: 13px; color: #999"
+      >填写Android App包名可在启动Android Driver时打开应用</span
+      >
+    </el-form-item>
+    <el-form-item label="AppActivity" prop="appActivity">
+      <el-input
+          v-model="project.appActivity"
+          placeholder="请输入Android AppActivity"
+      ></el-input>
+      <span style="font-size: 13px; color: #999"
+      >填写Android AppActivity可在启动Android Driver时打开应用</span
       >
     </el-form-item>
   </el-form>
