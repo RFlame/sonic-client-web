@@ -162,6 +162,7 @@ onMounted(() => {
         { text: 'cssSelector', value: 'cssSelector' },
         { text: '坐标', value: 'point' },
         { text: '图片', value: 'image' },
+        { text: '图片AndXpath', value: 'imageAndXpath' },
         { text: 'nsPredicate', value: 'nsPredicate' },
         { text: 'linkText', value: 'linkText' },
         { text: 'className', value: 'className' },
@@ -191,13 +192,24 @@ onMounted(() => {
       <template #default="scope">
         <el-image
             :z-index="5000"
-            v-if="scope.row.eleType === 'image'"
+            v-if="scope.row.eleType === 'image' || scope.row.eleType === 'imageAndXpath'"
             fit="contain"
             style="width: 100px; height: 100%; margin-top: 10px"
             :src="scope.row.eleValue"
             :preview-src-list="[scope.row.eleValue]"
         ></el-image>
         <span v-else-if="scope.row.eleValue">{{ scope.row.eleValue }}</span>
+        <span v-else>未填写</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+        :show-overflow-tooltip="true"
+        label="辅助定位控件元素值"
+        header-align="center"
+    >
+      <template #default="scope">
+        <span v-if="scope.row.eleValue">{{ scope.row.eleAssisted }}</span>
         <span v-else>未填写</span>
       </template>
     </el-table-column>

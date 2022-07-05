@@ -13,6 +13,7 @@ const element = ref({
   eleName: "",
   eleType: "",
   eleValue: "",
+  eleAssisted: "",
   projectId: props.projectId,
 })
 const updateEle = ref(null)
@@ -108,6 +109,7 @@ onMounted(() => {
         <el-option-group label="特殊定位方式">
           <el-option label="坐标" value="point"></el-option>
           <el-option label="图片" value="image"></el-option>
+          <el-option label="图片AndXpath" value="imageAndXpath"></el-option>
         </el-option-group>
         <el-option-group label="WebView常用定位方式">
           <el-option value="name"></el-option>
@@ -122,7 +124,31 @@ onMounted(() => {
     </el-form-item>
     <el-form-item prop="eleValue" label="控件元素值">
       <el-upload
-          v-if="element.eleType === 'image'"
+          v-if="element.eleType === 'imageAndXpath'"
+          drag
+          action=""
+          :with-credentials="true"
+          :limit="1"
+          :before-upload="beforeAvatarUpload"
+          :on-exceed="limitOut"
+          :http-request="upload"
+          list-type="picture"
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <template #tip>
+          <div class="el-upload__tip">只能上传jpg/png文件</div>
+        </template>
+      </el-upload>
+      <el-input
+          type="textarea"
+          autosize
+          v-if="element.eleType === 'imageAndXpath'"
+          v-model="element.eleAssisted"
+          placeholder="请输入辅助定位控件元素值"
+      ></el-input>
+      <el-upload
+          v-else-if="element.eleType === 'image'"
           drag
           action=""
           :with-credentials="true"
