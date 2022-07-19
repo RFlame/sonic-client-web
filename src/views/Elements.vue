@@ -164,6 +164,7 @@ onMounted(() => {
         { text: '图片', value: 'image' },
         { text: '图片AndXpath', value: 'imageAndXpath' },
         { text: 'nsPredicate', value: 'nsPredicate' },
+        { text: 'androidUIAutomator', value: 'androidUIAutomator' },
         { text: 'linkText', value: 'linkText' },
         { text: 'className', value: 'className' },
         { text: 'tagName', value: 'tagName' },
