@@ -140,13 +140,6 @@ onMounted(() => {
           <div class="el-upload__tip">只能上传jpg/png文件</div>
         </template>
       </el-upload>
-      <el-input
-          type="textarea"
-          autosize
-          v-if="element.eleType === 'imageAndXpath'"
-          v-model="element.eleAssisted"
-          placeholder="请输入辅助定位控件元素值"
-      ></el-input>
       <el-upload
           v-else-if="element.eleType === 'image'"
           drag
@@ -170,6 +163,13 @@ onMounted(() => {
           v-else
           v-model="element.eleValue"
           placeholder="请输入控件元素值"
+      ></el-input>
+      <el-input
+          type="textarea"
+          autosize
+          v-if="element.eleType === 'imageAndXpath' || element.eleType === 'id'"
+          v-model="element.eleAssisted"
+          placeholder="请输入辅助定位控件元素值"
       ></el-input>
     </el-form-item>
     <div style="text-align: center">
